@@ -319,6 +319,8 @@
       // docx/JSZip programan tareas con setImmediate; con este respaldo no dependen de postMessage
       if (!window.setImmediate) window.setImmediate = (f, ...a) => setTimeout(() => f(...a), 0);
       await cargarScript("docx.js");
+      const sinSup = L.sectores.filter(s => !(+s.superficie > 0));
+      if (sinSup.length) { msg.textContent = "Completá la superficie de: " + sinSup.map(s => s.nombre || "sector sin nombre").join(", ") + "."; return; }
       const out = window.CFInforme.build(window.docx, L);
       const P = window.docx.Packer;
       const datos = P.toArrayBuffer ? await P.toArrayBuffer(out.doc) : await P.toBlob(out.doc);

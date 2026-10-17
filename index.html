@@ -540,7 +540,6 @@ ul.falt{margin:0;padding-left:1.2em;display:grid;gap:4px}
 (function(){
 const {LIB,RIESGOS,RANGOS,FNAT,FMEC,PA,PB,USOS,idx} = FF;
 const EJEMPLO = FF.EJEMPLO;
-const IMGCAP = {madera:"Pilas de pallets de madera a 1 m del muro norte.",carton:"Cajas de cartón en la estantería metálica.",papel:"Cajas de archivo con papel.",caucho:"Pilas de neumáticos en el centro del pañol.",film:"Rollos de film de polietileno.",liquidos:"Tambores de gasoil y aceite sobre bateas de contención."};
 const PLAN = {ext:[["E1",0.3,10,"PQS"],["E2",19.7,10,"PQS"],["E3",18.665,2.0,"PQS"],["E4",6.35,0.3,"CO₂"]],puerta:[10,0]};
 
 const st = {S:400, rows:EJEMPLO.map(([id,q])=>({id,q})), sel:0, R:3, vent:"nat", r2:true, cob:"A", uso:30};
@@ -557,17 +556,17 @@ function calc(){
 function renderInv(r){
   const tb = $("#tab-inv tbody");
   tb.innerHTML = r.items.map((i,k)=>`<tr data-k="${k}" class="${k===st.sel?"sel":""}">
-    <td><span class="sw" style="background:var(${i.col})"></span>${i.n}</td><td>${i.c}</td>
+    <td><span class="sw" style="background:var(${i.col})"></span>${i.n}${i.pci===0?'<span class="note" style="color:var(--red)"> — completar PCI</span>':''}</td><td>${i.c}</td>
     <td class="r"><input type="number" id="q-${i.id}-${k}" data-k="${k}" min="0" step="1" value="${i.q}" aria-label="Cantidad de ${i.n}"></td>
     <td>${i.u==="l"?"litros":"kg"}</td><td class="r num">${i.dens?fmt(i.dens,2)+" kg/l":"—"}</td>
     <td class="r num">${fmt(i.kg)}</td>
     <td><button class="del" type="button" data-del="${k}" aria-label="Quitar ${i.n}">×</button></td></tr>`).join("");
   const sel = r.items[st.sel];
   const img = $("#img-mat");
-  if(sel && sel.img){ img.src = "img/"+sel.img+".webp"; img.alt = "Pañol con "+sel.n.toLowerCase()+" resaltado"; $("#cap-mat").textContent = IMGCAP[sel.img]; }
+  if(sel && sel.img){ img.src = "img/"+sel.img+".webp"; img.alt = "Pañol con "+sel.n.toLowerCase()+" resaltado"; $("#cap-mat").textContent = sel.cap || ""; }
   else if(sel){ img.src="img/completo.webp"; img.alt="Pañol completo"; $("#cap-mat").textContent = sel.n+" no está en el modelo del ejemplo."; }
   const used = new Set(st.rows.map(x=>x.id));
-  $("#add-mat").innerHTML = Object.entries(LIB).filter(([id])=>!used.has(id)).map(([id,m])=>`<option value="${id}">${m.n} (clase ${m.c})</option>`).join("") || `<option value="">No quedan materiales en la lista</option>`;
+  $("#add-mat").innerHTML = Object.entries(LIB).filter(([id])=>!used.has(id)).map(([id,m])=>`<option value="${id}">${m.n} (clase ${m.c})${m.pci===0?" — completar PCI":""}</option>`).join("") || `<option value="">No quedan materiales en la lista</option>`;
 }
 
 function renderCal(r){
@@ -736,7 +735,7 @@ $("#tab-inv").addEventListener("input",e=>{ if(e.target.matches("input[data-k]")
 $("#tab-inv").addEventListener("click",e=>{
   const d = e.target.closest("[data-del]"); if(d){ st.rows.splice(+d.dataset.del,1); st.sel=Math.min(st.sel,st.rows.length-1); render(); return; }
   const tr = e.target.closest("tr[data-k]"); if(tr && !e.target.matches("input")){ st.sel=+tr.dataset.k; renderInv(calc()); }
-  else if(tr){ st.sel=+tr.dataset.k; [...tr.parentNode.children].forEach(x=>x.classList.toggle("sel",x===tr)); const sel=calc().items[st.sel]; if(sel&&sel.img){$("#img-mat").src="img/"+sel.img+".webp";$("#cap-mat").textContent=IMGCAP[sel.img];} }
+  else if(tr){ st.sel=+tr.dataset.k; [...tr.parentNode.children].forEach(x=>x.classList.toggle("sel",x===tr)); const sel=calc().items[st.sel]; if(sel&&sel.img){$("#img-mat").src="img/"+sel.img+".webp";$("#img-mat").alt="Pañol con "+sel.n.toLowerCase()+" resaltado";$("#cap-mat").textContent=sel.cap||"";}else if(sel){$("#img-mat").src="img/completo.webp";$("#img-mat").alt="Pañol completo";$("#cap-mat").textContent=sel.n+" no está en el modelo del ejemplo.";} }
 });
 $("#btn-add").addEventListener("click",()=>{const id=$("#add-mat").value; if(id&&LIB[id]){st.rows.push({id,q:100}); st.sel=st.rows.length-1; render();}});
 $("#btn-reset").addEventListener("click",()=>{st.rows=EJEMPLO.map(([id,q])=>({id,q})); st.S=400; $("#in-s").value=400; st.sel=0; st.R=3; st.vent="nat"; st.r2=true; st.uso=30; render();});
@@ -773,5 +772,6 @@ render();
 </script>
 <script src="informe.js"></script>
 <script src="libro.js"></script>
+<script>if("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js");</script>
 
 </body></html>

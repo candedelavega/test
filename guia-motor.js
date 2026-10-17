@@ -1,16 +1,16 @@
-/* Wrapper sobre motor.js (CF). Agrega img y col para la visualización de la guía. */
+/* Wrapper sobre motor.js (CF). Agrega img, col y cap para la visualización de la guía. */
 var FF = (function () {
   "use strict";
   const C = window.CF;
 
   const VISUAL = {
-    madera:  { img: "madera",   col: "--m-madera"  },
-    carton:  { img: "carton",   col: "--m-carton"  },
-    papel:   { img: "papel",    col: "--m-papel"   },
-    caucho:  { img: "caucho",   col: "--m-caucho"  },
-    film:    { img: "film",     col: "--m-film"    },
-    gasoil:  { img: "liquidos", col: "--m-gasoil"  },
-    aceite:  { img: "liquidos", col: "--m-aceite"  },
+    madera:  { img: "madera",   col: "--m-madera",  cap: "Pilas de pallets de madera a 1 m del muro norte." },
+    carton:  { img: "carton",   col: "--m-carton",  cap: "Cajas de cartón en la estantería metálica." },
+    papel:   { img: "papel",    col: "--m-papel",   cap: "Cajas de archivo con papel." },
+    caucho:  { img: "caucho",   col: "--m-caucho",  cap: "Pilas de neumáticos en el centro del pañol." },
+    film:    { img: "film",     col: "--m-film",    cap: "Rollos de film de polietileno." },
+    gasoil:  { img: "liquidos", col: "--m-gasoil",  cap: "Tambores de gasoil y aceite sobre bateas de contención." },
+    aceite:  { img: "liquidos", col: "--m-aceite",  cap: "Tambores de gasoil y aceite sobre bateas de contención." },
   };
   const LIB = Object.fromEntries(
     Object.entries(C.LIB).map(([id, m]) => [id, Object.assign({}, m, VISUAL[id] || { col: "--m-otro" })])

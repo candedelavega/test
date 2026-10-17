@@ -246,3 +246,4 @@
 
   root.CF = { LIB, RIESGOS, RANGOS, FNAT, FMEC, PA, PB, USOS, F_OPC, ITEMS, GRUPOS, calcSector, evaluar, ejemplo, fmt, idx, fnum };
 })(typeof window !== "undefined" ? window : globalThis);
+if (typeof module !== "undefined") module.exports = globalThis.CF;
