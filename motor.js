@@ -58,7 +58,7 @@
     const uso = +sec.uso || 30;
     const N = Math.ceil(S / uso - 1e-9);
     const nraw = N / 100;
-    let n = Math.floor(nraw) + ((nraw % 1) >= 0.5 ? 1 : 0); n = Math.max(n, 2);
+    let n = Math.max(Math.ceil(nraw), 2);
     const ancho = 1.10 + 0.45 * (n - 2);
     const salidas = n < 4 ? 1 : Math.ceil(n / 4 + 1 - 1e-9);
     return { S, items, tot, totA, totB, qf, qa, qb, hasB, inflam1, R, iT, iA, iB, F, Fnote, A, B, colB, Anum, Bnum, nExt, uso, N, nraw, n, ancho, salidas };

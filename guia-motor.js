@@ -46,10 +46,10 @@ var FF = (function(){
     const B = PB[colB] ? PB[colB][iB] : null;
     const Anum = A && A!=="a det." ? parseInt(A) : 1;
     const Bnum = Math.max(B && B!=="a det." ? parseInt(B) : 0, 5);
-    const nExt = Math.ceil(S/200 - 1e-9);
+    const nExt = Math.max(1, Math.ceil(S/200 - 1e-9));
     const uso = +s.uso || 30;
     const N = Math.ceil(S/uso - 1e-9);
-    const nraw = N/100; let n = Math.floor(nraw) + ((nraw%1)>=0.5?1:0); n = Math.max(n,2);
+    const nraw = N/100; let n = Math.max(Math.ceil(nraw), 2);
     const ancho = 1.10 + 0.45*(n-2);
     const salidas = n<4 ? 1 : Math.ceil(n/4+1-1e-9);
     const Fmin = /^F \d+/.test(F) ? parseInt(F.slice(2)) : null;
