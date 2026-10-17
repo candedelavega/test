@@ -24,8 +24,12 @@
     clearTimeout(tGuardar);
     tGuardar = setTimeout(() => {
       try { localStorage.setItem(KEY, JSON.stringify(L)); avisoGuardado = "Guardado en este navegador a las " + new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }); }
-      catch (e) { avisoGuardado = "No se pudo guardar en el navegador (las fotos ocupan mucho). Guardá un respaldo desde el paso 5."; }
-      const el = $("#lb-guardado"); if (el) el.textContent = avisoGuardado;
+      catch (e) {
+        avisoGuardado = "No se pudo guardar en el navegador (las fotos ocupan mucho). Guardá un respaldo desde el paso 5.";
+        const el = $("#lb-guardado"); if (el) { el.textContent = avisoGuardado; el.style.cssText = "color:var(--red);font-weight:600;background:var(--red-soft);padding:6px 10px;border-radius:4px"; }
+        return;
+      }
+      const el = $("#lb-guardado"); if (el) { el.textContent = avisoGuardado; el.style.cssText = ""; }
     }, 400);
   }
   const sec = () => L.sectores[Math.min(secIdx, L.sectores.length - 1)];
@@ -166,7 +170,11 @@
   }
   function pintarResultados() {
     const el = $("#lb-res"); if (!el) return;
-    const s = sec(), r = calc(s);
+    const s = sec();
+    if (!+s.superficie) { el.innerHTML = "<p class='note' style='padding:10px'>Completá la superficie para ver los resultados.</p>"; return; }
+    const r = calc(s);
+    const cbR2 = el.closest("#lb-etapa") && document.querySelector(`[data-f="s.${secIdx}.r2B"]`);
+    if (cbR2) cbR2.disabled = !r.hasB;
     const inst = (s.extintores || []).length;
     const fEx = CF.fnum(s.fExistente), fReq = CF.fnum(r.F);
     const fila = (k, v, ok) => `<div class="rrow"><span>${k}</span><b class="${ok === true ? "okc" : ok === false ? "noc" : ""}">${v}</b></div>`;
@@ -290,7 +298,12 @@
     try {
       dlP = dlP || (window.claude && window.claude.use ? window.claude.use("downloads") : Promise.resolve(null));
       const dl = await dlP;
-      if (!dl) { msg.textContent = "La descarga no está disponible en esta vista. Abrí la app desde claude.ai."; return; }
+      if (!dl) {
+        const url = URL.createObjectURL(new Blob([data]));
+        const a = Object.assign(document.createElement("a"), { href: url, download: nombre });
+        document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+        msg.textContent = "Listo: " + nombre; return;
+      }
       await dl.save({ filename: nombre, data });
       msg.textContent = "Listo: " + nombre;
     } catch (e) {

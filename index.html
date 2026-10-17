@@ -4,7 +4,8 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"></noscript>
 </head><body>
 <style>
 /* Layout: banda de resultados arriba, luego 8 pasos reales en secuencia (figura CAD | explicación + cálculo).
@@ -761,6 +762,8 @@ render();
   const pg=document.getElementById("tab-guia"), pl=document.getElementById("tab-libro");
   function ver(cual){ const libro = cual==="libro";
     tg.setAttribute("aria-selected",!libro); tl.setAttribute("aria-selected",libro); pg.hidden=libro; pl.hidden=!libro;
+    const panel = libro ? pl : pg; panel.setAttribute("tabindex","0"); panel.focus({preventScroll:true});
+    (libro ? pg : pl).removeAttribute("tabindex");
     try{ sessionStorage.setItem("cf-tab",cual);}catch(e){} }
   tg.addEventListener("click",()=>ver("guia")); tl.addEventListener("click",()=>{ver("libro"); window.scrollTo({top:0});});
   let ini="guia"; if(location.hash==="#libro") ini="libro"; else { try{ ini=sessionStorage.getItem("cf-tab")||"guia"; }catch(e){} }

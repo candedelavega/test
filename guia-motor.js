@@ -7,7 +7,7 @@ var FF = (function(){
     caucho:{n:"Neumáticos / caucho",c:"A",u:"kg",pci:10000,est:"ve",src:"UTN FRRQ; podría ser menor",img:"caucho",col:"--m-caucho"},
     film:{n:"Film de polietileno",c:"A",u:"kg",pci:10000,est:"se",src:"TP IAS 2023",img:"film",col:"--m-film"},
     gasoil:{n:"Gasoil",c:"B",u:"l",dens:0.84,pci:10000,est:"se",src:"UTN FRRQ; densidad a verificar",img:"liquidos",col:"--m-gasoil",inflam:2},
-    aceite:{n:"Aceite lubricante",c:"B",u:"l",dens:0.88,pci:9500,est:"ve",src:"Informe TdF 2026",img:"liquidos",col:"--m-aceite"},
+    aceite:{n:"Aceite lubricante",c:"B",u:"l",dens:0.88,pci:9500,est:"ve",src:"Informe TdF 2026",img:"liquidos",col:"--m-aceite",inflam:2},
     algodon:{n:"Algodón",c:"A",u:"kg",pci:3980,est:"se",src:"UTN FRRQ",col:"--m-otro"},
     lana:{n:"Lana",c:"A",u:"kg",pci:4940,est:"se",src:"UTN FRRQ",col:"--m-otro"},
     pvc:{n:"PVC",c:"A",u:"kg",pci:5000,est:"se",src:"UTN FRRQ",col:"--m-otro"},

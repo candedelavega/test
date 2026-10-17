@@ -13,7 +13,7 @@
     lana: { n: "Lana", c: "A", u: "kg", pci: 4940, est: "se", src: "UTN FRRQ" },
     pvc: { n: "PVC", c: "A", u: "kg", pci: 5000, est: "se", src: "UTN FRRQ" },
     gasoil: { n: "Gasoil", c: "B", u: "l", dens: 0.84, pci: 10000, est: "se", src: "UTN FRRQ; densidad según hoja de seguridad", inflam: 2 },
-    aceite: { n: "Aceite lubricante", c: "B", u: "l", dens: 0.88, pci: 9500, est: "ve", src: "Informe TdF 2026" },
+    aceite: { n: "Aceite lubricante", c: "B", u: "l", dens: 0.88, pci: 9500, est: "ve", src: "Informe TdF 2026", inflam: 2 },
     nafta: { n: "Nafta", c: "B", u: "l", dens: 0.74, pci: 10000, est: "ve", src: "UTN FRRQ; densidad según hoja de seguridad", inflam: 1 },
     glp: { n: "GLP", c: "B", u: "kg", pci: 11000, est: "se", src: "≈ 46 MJ/kg (valor de referencia)", inflam: 1 },
     otro: { n: "Otro material", c: "A", u: "kg", pci: 0, est: "ve", src: "Completar fuente" }

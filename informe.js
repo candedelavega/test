@@ -54,6 +54,7 @@
       return Uint8Array.from(Buffer.from(b64, "base64"));
     }
     function imagen(f, maxW = 560) {
+      if (!f || !f.data) return espacio();
       const w = f.w || 800, h = f.h || 600; const k = Math.min(1, maxW / w);
       return new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, children: [new ImageRun({ type: "jpg", data: bytes(f.data), transformation: { width: Math.round(w * k), height: Math.round(h * k) } })] });
     }
